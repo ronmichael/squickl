@@ -1,0 +1,12 @@
+\\psf\home\documents\visual studio 2010\Projects\SmartReader\SmartReader\obj\Debug\ResolveAssemblyReference.cache
+\\psf\home\documents\visual studio 2010\Projects\SmartReader\SmartReader\obj\Debug\SmartReader.pdb
+\\psf\home\documents\visual studio 2010\Projects\SmartReader\SmartReader\bin\Debug\SmartReader.dll
+\\psf\home\documents\visual studio 2010\Projects\SmartReader\SmartReader\bin\Debug\SmartReader.pdb
+\\psf\home\documents\visual studio 2010\Projects\SmartReader\SmartReader\bin\Debug\mysql.visualstudio.dll
+\\psf\home\documents\visual studio 2010\Projects\SmartReader\SmartReader\obj\Debug\SmartReader.dll
+\\psf\Home\Documents\Visual Studio 2010\Projects\Squickl\Squickl\bin\Debug\SmartReader.dll
+\\psf\Home\Documents\Visual Studio 2010\Projects\Squickl\Squickl\bin\Debug\SmartReader.pdb
+\\psf\Home\Documents\Visual Studio 2010\Projects\Squickl\Squickl\bin\Debug\mysql.visualstudio.dll
+\\psf\Home\Documents\Visual Studio 2010\Projects\Squickl\Squickl\obj\Debug\ResolveAssemblyReference.cache
+\\psf\Home\Documents\Visual Studio 2010\Projects\Squickl\Squickl\obj\Debug\SmartReader.dll
+\\psf\Home\Documents\Visual Studio 2010\Projects\Squickl\Squickl\obj\Debug\SmartReader.pdb
