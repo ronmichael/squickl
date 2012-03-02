@@ -24,12 +24,9 @@ public class Squickl : System.IDisposable
 
     #region Private properties
 
-    //private SqlConnection cn;
     private IDbConnection cn;
     private IDataReader dr;
-    //private SqlDataReader dr;
     private IDbCommand cmd;
-    //private SqlCommand cmd;
     private static Exception lastError;     
     private int rowsread = 0;
 
@@ -160,24 +157,42 @@ public class Squickl : System.IDisposable
     /// </summary>
     /// <param name="statement"></param>
     /// <returns></returns>
-    public static bool SqlExec(string statement)
+    public static bool Exec(string sql, string connectionname = "")
     {
         try
         {
-            
-            using (SqlConnection con = new SqlConnection())
+            if (ProviderType(connectionname) == ProviderTypes.MSSQL)
             {
-                con.ConnectionString = SqlConnectionString();
-                con.Open();
-                
 
-                using (SqlCommand cmd = new SqlCommand(statement, con))
+                using (SqlConnection con = new SqlConnection(SqlConnectionString(connectionname)))
                 {
-                    cmd.ExecuteNonQuery();
-                    return true;
+                    using (SqlCommand oc = new SqlCommand(sql, con))
+                    {
+                        con.Open();
+                        oc.ExecuteNonQuery();
+                    }
+
+                }
+
+
+            }
+            else
+            {
+
+                using (MySqlConnection con = new MySqlConnection(SqlConnectionString(connectionname)))
+                {
+                    using (MySqlCommand oc = new MySqlCommand(sql, con))
+                    {
+                        con.Open();
+                        oc.ExecuteNonQuery();
+                    }
+
+
                 }
             }
 
+            return true;
+
         }
         catch (Exception err)
         {
@@ -187,24 +202,7 @@ public class Squickl : System.IDisposable
 
     }
 
-    public static bool SqlExec(string statement, SqlConnection con)
-    {
-        try
-        {
 
-            using (SqlCommand cmd = new SqlCommand(statement, con))
-            {
-                cmd.ExecuteNonQuery();
-                return true;
-            }
-        }
-        catch (Exception err)
-        {
-            lastError = err;
-            return false;
-        }
-
-    }
 
 
 
@@ -414,8 +412,10 @@ public class Squickl : System.IDisposable
         {
             output = dr.GetDateTime(ord);
         }
-        catch
-        { }
+        catch(Exception err)
+        {
+            lastError = err;
+        }
         return output;
     }
 
@@ -425,7 +425,7 @@ public class Squickl : System.IDisposable
     /// </summary>
     /// <param name="ColumnName">Name of column to retrieve</param>
     /// <returns>A string</returns>
-    public string GetDate(string ColumnName)
+    public string GetDate(string ColumnName, string format = "M/d/yyyy")
     {
         string output = string.Empty;
 
@@ -434,37 +434,24 @@ public class Squickl : System.IDisposable
             int ord = dr.GetOrdinal(ColumnName);
 
             if (dr.IsDBNull(ord)) output = "";
-            else output = dr.GetDateTime(ord).ToString("M/d/yyyy");
+            else output = dr.GetDateTime(ord).ToString(format);
         }
-        catch
-        { }
+        catch(Exception err)
+        {
+            lastError = err;
+        }
 
         return output;
     }
 
 
-    public string GetDateAsGoogleCell(string ColumnName, string displayFormat)
-    {
-        StringBuilder b = new StringBuilder();
-
-        if (IsNullOrEmpty(ColumnName))
-            b.Append("{v:null, format:''}");
-        else
-            b.Append("{v:new Date(")
-                .Append(GetDateTime(ColumnName).ToString("yyyy,M,d"))
-                .Append("),f:'")
-                .Append(GetDateTime(ColumnName).ToString(displayFormat))
-                .Append("'}");
-
-        return b.ToString();
-
-    }
+   
     /// <summary>
     /// Read a column value in as a string formatted as a time.
     /// </summary>
     /// <param name="ColumnName">Name of column to retrieve</param>
     /// <returns>A string</returns>
-    public string GetTime(string ColumnName)
+    public string GetTime(string ColumnName, string format = "h:mm tt")
     {
         string output = string.Empty;
 
@@ -473,10 +460,12 @@ public class Squickl : System.IDisposable
             int ord = dr.GetOrdinal(ColumnName);
 
             if (dr.IsDBNull(ord)) output = "";
-            else output = dr.GetDateTime(ord).ToString("h:mm tt");
+            else output = dr.GetDateTime(ord).ToString(format);
         }
-        catch
-        { }
+        catch (Exception err)
+        {
+            lastError = err;
+        }
 
         return output;
     }
@@ -515,9 +504,9 @@ public class Squickl : System.IDisposable
             }
 
         }
-        catch
-        { 
-        
+        catch (Exception err)
+        {
+            lastError = err;
         }
 
 
@@ -545,8 +534,10 @@ public class Squickl : System.IDisposable
             else output = Convert.ToInt32(dr[ord].ToString());
             //else output = dr.GetInt32(ord);
         }
-        catch
-        { }
+        catch (Exception err)
+        {
+            lastError = err;
+        }
 
         return output;
     }
@@ -564,8 +555,10 @@ public class Squickl : System.IDisposable
         {
             output = dr.GetDataTypeName(ColumnIndex);
         }
-        catch
-        { }
+        catch (Exception err)
+        {
+            lastError = err;
+        }
 
         return output;
     }
@@ -599,7 +592,10 @@ public class Squickl : System.IDisposable
             if (dr.IsDBNull(ord)) output = 0;
             else output = Convert.ToDouble(dr[ord].ToString());
         }
-        catch { }
+        catch (Exception err)
+        {
+            lastError = err;
+        }
 
         return output;
     }
@@ -622,8 +618,10 @@ public class Squickl : System.IDisposable
             if (dr.IsDBNull(ord)) output = 0;
             else output = dr.GetFloat(ord);
         }
-        catch
-        { }
+        catch (Exception err)
+        {
+            lastError = err;
+        }
 
         return output;
     }
@@ -643,8 +641,10 @@ public class Squickl : System.IDisposable
             if (dr.IsDBNull(ord)) output = 0;
             else output = Convert.ToDecimal(dr[ord].ToString());
         }
-        catch
-        { }
+        catch (Exception err)
+        {
+            lastError = err;
+        }
 
         return output;
     }
@@ -663,8 +663,10 @@ public class Squickl : System.IDisposable
             if (dr.IsDBNull(ColumnIndex)) output = "";
             else output = dr[ColumnIndex].ToString();
         }
-        catch
-        { }
+        catch (Exception err)
+        {
+            lastError = err;
+        }
 
         return output;
     }
@@ -706,7 +708,8 @@ public class Squickl : System.IDisposable
 
     public DataTable GetTable()
     {
-        // there is another way to do this but this way allows you to do multiple GetTables when there are multiple result sets
+        // there is another way to do this using built in functions, 
+        // but this way allows you to do multiple GetTables when there are multiple result sets
 
         var table = new DataTable();
         var fieldCount = dr.FieldCount;
@@ -727,12 +730,20 @@ public class Squickl : System.IDisposable
     }
     
 
+    /// <summary>
+    /// Access to the base DataReader
+    /// </summary>
     public IDataReader DataReader
     {
         get { return dr; }
     }
 
 
+    /// <summary>
+    /// Identify whether the column value is null or empty
+    /// </summary>
+    /// <param name="ColumnName"></param>
+    /// <returns></returns>
     public bool IsNullOrEmpty(string ColumnName)
     {
         return String.IsNullOrEmpty(GetString(dr.GetOrdinal(ColumnName)));
@@ -784,8 +795,10 @@ public class Squickl : System.IDisposable
             if (dr.IsDBNull(ord)) output = false;
             else output = dr.GetBoolean(ord);
         }
-        catch
-        { }
+        catch (Exception err)
+        {
+            lastError = err;
+        }
 
         return output;
     }

@@ -17,6 +17,12 @@ public static class SquicklExtensions
 
     }
 
+
+    /// <summary>
+    /// Prepare a boolean value for use in a SQL string - converts it to a 1 or a 0
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
     public static string SqlParam(this bool value)
     {
         
@@ -26,12 +32,17 @@ public static class SquicklExtensions
     }
 
 
-
+    /// <summary>
+    /// Prepare a string value for use in a SQL string - first trim it,
+    /// then if it's empty return null otherwise return it in single quotes
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
     public static string SqlParam(this string value)
     {
         if (value == null) value = "";
 
-        string nv = value.Replace("'", "''").Trim();
+        string nv = value.Trim().SqlClean();
         if (nv.Length == 0) return "null";
         else return "'" + nv + "'";
 
