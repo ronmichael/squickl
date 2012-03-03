@@ -1,5 +1,10 @@
-Squickl - SQL+Quick or Quick+SQL - is a .NET library that makes it a breeze to access MSSQL and MySQL data sources for those of us who don't want to build data access layers.
+Squickl 
+=============================================================
+SQL+Quick or Quick+SQL - is a .NET library that makes it a breeze to access MSSQL and
+MySQL data sources for those of us who don't want to build data access layers.
 
+Setup
+-------------------------------------------------------------
 Squickl assumes that most of your data access is to one data source. So you start by setting up your default data source in your .config file and you're off.
 
 	<appSettings>
@@ -11,6 +16,8 @@ Squickl assumes that most of your data access is to one data source. So you star
 	</connectionStrings>
 
 
+Examples
+-------------------------------------------------------------
 Lookup something:
 
 	string what = Squickl.Lookup("select top name from messages where author='Bob'");
@@ -46,3 +53,24 @@ SqlParam will make a string SQL safe - trim it, encapsulate it in single quotes,
 
 
 
+The MIT License
+-------------------------------------------------------------
+Copyright (c) 2012 Ron Michael Zettlemoyer
+				
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
