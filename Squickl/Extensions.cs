@@ -13,6 +13,7 @@ public static class SquicklExtensions
     /// <returns></returns>
     public static string SqlClean(this string value)
     {
+        // have to deal with \' issue in mysql...
         return value.Replace("'", "''");
 
     }

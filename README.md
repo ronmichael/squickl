@@ -52,6 +52,10 @@ SqlParam will make a string SQL safe - trim it, encapsulate it in single quotes,
 	Squickl.Execute(cmd);
 
 
+Known issues
+-------------------------------------------------------------
+SqlClean in Extensions doesn't handle \' in MySQL strings.
+
 
 The MIT License
 -------------------------------------------------------------
