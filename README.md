@@ -7,12 +7,12 @@ MSSQL Compact and MySQL data sources for those who don't want or need a data acc
 Change history
 -------------------------------------------------------------
 1.01 - March 25, 2013
-	Added support for SQL Server Compact Edition
-	Minor code refactoring
-	Added SquicklTest project for testing purposes
+- Added support for SQL Server Compact Edition
+- Minor code refactoring
+- Added SquicklTest project for testing purposes
 
 1.00 - February 29, 2012
-	Initial release
+- Initial release
 
 
 Setup
