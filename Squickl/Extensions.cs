@@ -6,6 +6,8 @@ using System.Web;
 
 public static class SquicklExtensions
 {
+
+
     /// <summary>
     /// Cleans up a string so that it can be safely passed as a parameter to SQL
     /// </summary>
@@ -13,10 +15,12 @@ public static class SquicklExtensions
     /// <returns></returns>
     public static string SqlClean(this string value)
     {
-        // have to deal with \' issue in mysql...
+
+        if (value == null) return "";
         return value.Replace("'", "''");
 
     }
+
 
 
     /// <summary>
@@ -26,9 +30,9 @@ public static class SquicklExtensions
     /// <returns></returns>
     public static string SqlParam(this bool value)
     {
-        
-        return (value ? "1" : "0");
 
+        if (value == null) return "0";
+        return (value ? "1" : "0");
 
     }
 
@@ -41,15 +45,30 @@ public static class SquicklExtensions
     /// <returns></returns>
     public static string SqlParam(this string value)
     {
-        if (value == null) value = "";
-
-        string nv = value.Trim().SqlClean();
+        string nv = value.SqlClean();
         if (nv.Length == 0) return "null";
         else return "'" + nv + "'";
-
     }
 
 
+
+    public static string SqlParam(this string value, string parameterName)
+    {
+        return "@" + parameterName + "=" + value.SqlParam();
+
+    }
+
+    public static string SqlParam(this DateTime value, string parameterName)
+    {
+        return "@" + parameterName + "='" + value.ToString("M/d/yyyy h:mm tt") + "'";
+
+    }
+
+    public static string SqlParam(this bool value, string parameterName)
+    {
+        return "@" + parameterName + "=" + (value ? "1" : "0");
+
+    }
 
 
 }

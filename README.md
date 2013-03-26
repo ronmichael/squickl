@@ -1,7 +1,19 @@
 Squickl 
 =============================================================
-SQL+Quick or Quick+SQL - is a .NET library that makes it a breeze to access MSSQL and
-MySQL data sources for those of us who don't want to build data access layers.
+SQL+Quick AKA Quick+SQL is a .NET library that makes it a breeze to access MSSQL,
+MSSQL Compact and MySQL data sources for those who don't want or need a data access layer.
+
+
+Change history
+-------------------------------------------------------------
+1.01 - March 25, 2013
+	Added support for SQL Server Compact Edition
+	Minor code refactoring
+	Added SquicklTest project for testing purposes
+
+1.00 - February 29, 2012
+	Initial release
+
 
 Setup
 -------------------------------------------------------------
@@ -13,6 +25,7 @@ Squickl assumes that most of your data access is to one data source. So you star
 	<connectionStrings>
 		<add name="mssql" connectionString="Server=?;Database=?;Trusted_Connection=False;User ID=?;Password=?"/>
 		<add name="mysql" providerName="MySql.Data.MySQLClient" connectionString="server=?;user=?;database=?;port=?;password=?;" />
+		<add name="mssqlce" providerName="System.Data.SqlServerCe"  connectionString="Data Source=?;Password=?" />
 	</connectionStrings>
 
 
@@ -22,7 +35,7 @@ Lookup something:
 
 	string what = Squickl.Lookup("select top name from messages where author='Bob'");
 
-Get a DataSet:
+Get a DataTable:
 
 	DataTable msgs = Squickl.ReadTable("select top 10 * from messages");
 
@@ -46,10 +59,18 @@ Squickl also includes some extensions to the standard String to make lazy SQL pr
 
 SqlParam will make a string SQL safe - trim it, encapsulate it in single quotes, and double any single quotes inside so that they are handled properly. If the string is empty it'll return null. It'll even take a C# boolean and convert it to 1 or 0.
 
-	string name = "Mc'Cormick";
-	bool yn = true;
-	string cmd = "update msgs set name=" + name.SqlParam() + ", complete=" + yn.SqlParam() where id=1";
-	Squickl.Execute(cmd);
+	string name = "Mc'Cormick";                   
+	bool yn = true; 
+	DateTime when = Convert.ToDateTime("2/1/2013 2:35pm"); 
+	
+	string cmd1 = "update msgs set " + name=" + name.SqlParam() + ", complete=" + yn.SqlParam() + ", when=" + when.SqlParam() + " where id=1";
+	// cmd1 -> update msg set name='Mc''Cormick', complete=1, when='2/1/2013 2:35 pm' where id=1";
+	
+	string cmd2 = "exec spu_Update id=1, " + name.SqlParam("name") + ", " + yn.SqlParam("complete") + ", " + when.SqlParam("when");
+	// cmd2 -> exec spu_Update id=1, @name='Mc''Cormick', @complete=1, @when='2/1/2013 2:35 pm'
+	
+	Squickl.Execute(cmd1);
+	Squickl.Execute(cmd2);
 
 
 Known issues
@@ -57,9 +78,16 @@ Known issues
 SqlClean in Extensions doesn't handle \' in MySQL strings.
 
 
+To do
+-------------------------------------------------------------
+- Get functions should probably raise an exception rather than hide it in LastError
+- Better handling of dynamic SQL CE filenames and MSSQL/MySQL connection strings 
+- Cleaner get functions?
+
+
 The MIT License
 -------------------------------------------------------------
-Copyright (c) 2012 Ron Michael Zettlemoyer
+Copyright (c) 2013 Ron Michael Zettlemoyer
 				
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

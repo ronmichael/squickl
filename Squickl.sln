@@ -8,6 +8,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquicklTest", "SquicklTest\SquicklTest.csproj", "{097DF62D-4147-4926-9FA9-4D39912205F0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,6 +30,16 @@ Global
 		{13FB2388-BF85-4963-B448-164558F141FE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{13FB2388-BF85-4963-B448-164558F141FE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{13FB2388-BF85-4963-B448-164558F141FE}.Release|x86.ActiveCfg = Release|Any CPU
+		{097DF62D-4147-4926-9FA9-4D39912205F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{097DF62D-4147-4926-9FA9-4D39912205F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{097DF62D-4147-4926-9FA9-4D39912205F0}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{097DF62D-4147-4926-9FA9-4D39912205F0}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{097DF62D-4147-4926-9FA9-4D39912205F0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{097DF62D-4147-4926-9FA9-4D39912205F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{097DF62D-4147-4926-9FA9-4D39912205F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{097DF62D-4147-4926-9FA9-4D39912205F0}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{097DF62D-4147-4926-9FA9-4D39912205F0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{097DF62D-4147-4926-9FA9-4D39912205F0}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

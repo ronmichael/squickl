@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Data.SqlServerCe;
 using System.IO;
 using System.Security;
 using System.Security.Cryptography;
@@ -12,7 +13,6 @@ using System.Text.RegularExpressions;
 using System.Timers;
 using System.Web;
 using System.Xml;
-using System.Configuration;
 using MySql.Data;
 using MySql.Data.MySqlClient;   
 
@@ -30,27 +30,39 @@ public class Squickl : System.IDisposable
     private static Exception lastError;     
     private int rowsread = 0;
 
-    public enum ProviderTypes { MSSQL = 1, MySQL = 2 };
+    public enum ProviderTypes { MSSQL = 1, MySQL = 2, MSSQLCompact };
   
 
     public static string SqlConnectionString(string name = "")
     {
+        
         if (name.Length == 0)
             name = ConfigurationManager.AppSettings["Squickl_DefaultConnection"];
-        return ConfigurationManager.ConnectionStrings[name].ConnectionString;
+
+        if (ConfigurationManager.ConnectionStrings[name] != null)
+            return ConfigurationManager.ConnectionStrings[name].ConnectionString.ToString().Replace("%temp%", Path.GetTempPath());
+        else
+            return "";
+
     }
 
     public static string ProviderName(string name = "")
     {
         if (name.Length == 0)
             name = ConfigurationManager.AppSettings["Squickl_DefaultConnection"];
-        return ConfigurationManager.ConnectionStrings[name].ProviderName;
+        if (ConfigurationManager.ConnectionStrings[name] != null)
+            return ConfigurationManager.ConnectionStrings[name].ProviderName;
+        else
+            return "";
+
     }
 
     public static ProviderTypes ProviderType(string name = "")
     {
         if (ProviderName(name).ToLower().Contains("mysql"))
             return ProviderTypes.MySQL;
+        else if (ProviderName(name)=="System.Data.SqlServerCe")
+            return ProviderTypes.MSSQLCompact;
         else
             return ProviderTypes.MSSQL;
     }
@@ -280,6 +292,12 @@ public class Squickl : System.IDisposable
         {
             cn = new SqlConnection(SqlConnectionString(connectionStringName));
             cmd = new SqlCommand();
+            cmd.CommandTimeout = 120;
+        }
+        else if (ProviderType(connectionStringName) == ProviderTypes.MSSQLCompact)
+        {
+            cn = new SqlCeConnection(SqlConnectionString(connectionStringName));
+            cmd = new SqlCeCommand();
         }
         else
         {
@@ -291,7 +309,7 @@ public class Squickl : System.IDisposable
 
         cmd.Connection = cn;
         cmd.CommandText = CommandText;
-        cmd.CommandTimeout = 120;
+        
         dr = cmd.ExecuteReader();
     }
 
@@ -375,6 +393,8 @@ public class Squickl : System.IDisposable
            
             if (dr is MySqlDataReader)
                 return ((MySqlDataReader)dr).HasRows;
+            else if (dr is SqlCeDataReader)
+                return ((SqlCeDataReader)dr).HasRows; // this may fail because CE doesn't always support it
             else
                 return ((SqlDataReader)dr).HasRows;
         } 
