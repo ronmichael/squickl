@@ -1,9 +1,7 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Squickl", "Squickl\Squickl.csproj", "{13FB2388-BF85-4963-B448-164558F141FE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquicklTest", "SmartReaderMssqlTest\SquicklTest.csproj", "{6581F567-F3E0-4622-8527-3ACB0259EBB3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A8B1F336-C2A1-4614-81C3-0CA5E2032988}"
 	ProjectSection(SolutionItems) = preProject
@@ -30,16 +28,6 @@ Global
 		{13FB2388-BF85-4963-B448-164558F141FE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{13FB2388-BF85-4963-B448-164558F141FE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{13FB2388-BF85-4963-B448-164558F141FE}.Release|x86.ActiveCfg = Release|Any CPU
-		{6581F567-F3E0-4622-8527-3ACB0259EBB3}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{6581F567-F3E0-4622-8527-3ACB0259EBB3}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{6581F567-F3E0-4622-8527-3ACB0259EBB3}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{6581F567-F3E0-4622-8527-3ACB0259EBB3}.Debug|x86.ActiveCfg = Debug|x86
-		{6581F567-F3E0-4622-8527-3ACB0259EBB3}.Debug|x86.Build.0 = Debug|x86
-		{6581F567-F3E0-4622-8527-3ACB0259EBB3}.Release|Any CPU.ActiveCfg = Release|x86
-		{6581F567-F3E0-4622-8527-3ACB0259EBB3}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{6581F567-F3E0-4622-8527-3ACB0259EBB3}.Release|Mixed Platforms.Build.0 = Release|x86
-		{6581F567-F3E0-4622-8527-3ACB0259EBB3}.Release|x86.ActiveCfg = Release|x86
-		{6581F567-F3E0-4622-8527-3ACB0259EBB3}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
