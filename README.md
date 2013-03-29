@@ -1,7 +1,8 @@
 Squickl 
 =============================================================
-SQL+Quick AKA Quick+SQL is a .NET library that makes it a breeze to access MSSQL,
+Squickl is a .NET library that makes it a breeze to access MSSQL,
 MSSQL Compact and MySQL data sources for those who don't want or need a data access layer.
+It's the modern incarnation of SmartReader, a very similar library I wrote many years ago.
 
 
 Change history
@@ -45,13 +46,22 @@ Need to access a different database than your default? Make sure it's in your .c
 
 Need to walk through a dataset? It's similar to DataReader (in fact you can access the base DataReader) but with helper functions to make it simpler:
 
-	using(Squickl sl = new Squickl("select when, name, subject, cost from messages"))
+	using(Squickl sl = new Squickl("select when, name, subject, cost from messages; exec dbo.spu_Moredata; exec dbo.spu_Colors"))
 	{
+	
 		while(sl.Read())
 		{
 			Console.WriteLine(sl.GetDate(when) + ": " + sl.GetString("subject"));
 			Console.WriteLine("It cost " + sl.GetMoney("cost"));
 		}
+		
+		sl.NextResult();
+		sl.Read();
+		Console.WriteLine(sl.GetString("data"));
+		
+		sl.NextResult();
+		DataTable colors = sl.GetTable();
+		
 	}
 
 
