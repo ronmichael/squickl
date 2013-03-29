@@ -1,8 +1,8 @@
 Squickl 
 =============================================================
-Squickl is a .NET library that makes it a breeze to access MSSQL,
-MSSQL Compact and MySQL data sources for those who don't want or need a data access layer.
-It's the modern incarnation of SmartReader, a very similar library I wrote many years ago.
+Squickl is a .NET library that makes it a breeze to access MSSQL, MSSQL Compact and MySQL data sources. 
+It works well in desktop or web applications. 
+It's the descendant of SmartReader, a library I wrote and have been using for years in dozens of projects.
 
 
 Change history
