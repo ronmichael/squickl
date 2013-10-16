@@ -1,18 +1,26 @@
 Squickl 
 =============================================================
-Squickl is a .NET library that makes it a breeze to access MSSQL, MSSQL Compact and MySQL data sources. 
-It works well in desktop or web applications. 
+Squickl is a .NET library that makes it a breeze to access just about any SQL data source.
+It works well in desktop or web applications and is for developers who don't like, want or need
+a data layer or ORM.
 It's the descendant of SmartReader, a library I wrote and have been using for years in dozens of projects.
 
 
 Change history
 -------------------------------------------------------------
-1.01 - March 25, 2013
+1.10 - October 25th, 2013
+- Significant refactoring & cleanup
+- Now uses DbProviderFactory for more universal database support; compatible with Glimpse
+- SqlLookup renamed to Lookup; SqlExec renamed to Exec; added Exists
+- New implementation of access to Columns and column definitions
+- Can now set in .config whether you want exceptions to be raised or not; default is true
+
+1.01 - March 25th, 2013
 - Added support for SQL Server Compact Edition
 - Minor code refactoring
 - Added SquicklTest project for testing purposes
 
-1.00 - February 29, 2012
+1.00 - February 29th, 2012
 - Initial release
 
 
@@ -22,12 +30,19 @@ Squickl assumes that most of your data access is to one data source. So you star
 
 	<appSettings>
 		<add key="Squickl_DefaultConnection" value="mssql" />
+		<add key="Squickl_RaiseExceptions" value="false" />
 	</appSettings>
 	<connectionStrings>
-		<add name="mssql" connectionString="Server=?;Database=?;Trusted_Connection=False;User ID=?;Password=?"/>
+		<add name="mssql" providerName="System.Data.SqlClient" connectionString="Server=?;Database=?;Trusted_Connection=False;User ID=?;Password=?"/>
 		<add name="mysql" providerName="MySql.Data.MySQLClient" connectionString="server=?;user=?;database=?;port=?;password=?;" />
-		<add name="mssqlce" providerName="System.Data.SqlServerCe"  connectionString="Data Source=?;Password=?" />
+	    <add name="mssqlce" providerName="System.Data.SqlServerCe.4.0" connectionString="Data Source=|DataDirectory|\data.sdf" />
 	</connectionStrings>
+
+Notes:
+
+- Squickl_DefaultConnection: Name of connection string to use by default. If not set, Squickl will use the first connection string it finds.
+- Squickl_RaiseExceptions: Defaults to false. When true, exceptions can arise from calling Squickl. When false all exceptions are trapped but available by looking at LastError property.
+
 
 
 Examples
