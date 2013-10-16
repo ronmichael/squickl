@@ -1,6 +1,0 @@
-\\psf\home\documents\visual studio 2010\Projects\SmartReader\SmartReader\bin\Debug\SmartReader.dll
-\\psf\home\documents\visual studio 2010\Projects\SmartReader\SmartReader\bin\Debug\SmartReader.pdb
-\\psf\home\documents\visual studio 2010\Projects\SmartReader\SmartReader\obj\Debug\ResolveAssemblyReference.cache
-\\psf\home\documents\visual studio 2010\Projects\SmartReader\SmartReader\obj\Debug\SmartReader.dll
-\\psf\home\documents\visual studio 2010\Projects\SmartReader\SmartReader\obj\Debug\SmartReader.pdb
-\\psf\home\documents\visual studio 2010\Projects\SmartReader\SmartReader\bin\Debug\mysql.visualstudio.dll
