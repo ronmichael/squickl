@@ -13,13 +13,14 @@ using System.Timers;
 using System.Web;
 using System.Xml;
 using System.Data.Common;
-
+using System.Dynamic;
 
 /// <summary>
 /// This is the Reader component of Squickl, which you'd instantiate to walk through a dataset.
 /// e.g. using Squickl reader = new Squickl("select * from data")) { while reader.Read() {  } }
 /// </summary>
-public partial class Squickl : System.IDisposable
+//public partial class Squickl : DynamicObject, System.IDisposable, IDynamicMetaObjectProvider
+public partial class Squickl : DynamicObject, System.IDisposable, IDynamicMetaObjectProvider
 {
 
     private DbDataReader dr;
@@ -165,8 +166,33 @@ public partial class Squickl : System.IDisposable
 
 
 
-   
 
+    public override bool TryGetMember(GetMemberBinder binder, out object result)
+    {
+        result = null;
+
+        try { 
+            int ord = dr.GetOrdinal(binder.Name);
+            result = dr[ord];
+            return true;
+        }
+        catch {}
+    
+        /*
+        // Next check for Public properties via Reflection
+        if (Instance != null)
+        {
+            try
+            {
+                return GetProperty(Instance, binder.Name, out result);
+            }
+            catch { }
+        }
+        */
+        // failed to retrieve a property
+        result = null;
+        return false;
+    }
 
     public string GetString(string ColumnName)
     {

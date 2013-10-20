@@ -12,8 +12,7 @@ using System.Data.Common;
 /// </summary>
 public partial class Squickl : System.IDisposable
 {
-
-
+   
 
     /// <summary>
     /// Executes a SQL statement and reads the resultset into a DataTable

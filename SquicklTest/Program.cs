@@ -4,12 +4,36 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Configuration;
-
+using System.Dynamic;
 
 namespace SquicklTest
 {
     class Program
     {
+
+
+        private static dynamic SqlDataReaderToExpando(Squickl reader)
+        {
+            var expandoObject = new ExpandoObject() as IDictionary<string, object>;
+
+            for (var i = 0; i < reader.FieldCount; i++)
+                expandoObject.Add(reader.Columns[i].Name, reader.DataReader[i]);
+
+            return expandoObject;
+        }
+
+        private static IEnumerable<dynamic> GetDynamicSqlData( string sql)
+        {
+            using (Squickl sqlx = new Squickl(sql))
+            {
+                while (sqlx.Read())
+                {
+                    yield return SqlDataReaderToExpando(sqlx);
+                }
+            }
+        }
+
+
         static void Main(string[] args)
         {
 
@@ -22,22 +46,20 @@ namespace SquicklTest
             Console.WriteLine("Using database in " + db);
             */
 
+          
 
             // read from the color table
+            Console.WriteLine("\r\n\r\nReader columns\r\n");
 
 
             using (Squickl sr = new Squickl("select * from colors order by name"))
             {
                 
-                Console.WriteLine("Reader columns\r\n");
-
-                sr.Read();
-
+          
                 foreach(Squickl.Column c in sr.Columns)
        
                 {
-                     
-                    Console.WriteLine(c.Name + " = " + c.RemoteType  + "," + c.LocalType);
+                    Console.WriteLine(c.Name + " = " + c.RemoteType + "," + c.LocalType);
                 }
 
 
@@ -48,10 +70,26 @@ namespace SquicklTest
                 while (sr.Read())
                 {
                     Console.WriteLine("Row " + sr.RowsRead + ": " + sr.GetString("name") + " or " + sr["name"]);
+                   
                 }
 
 
             }
+
+
+            Console.WriteLine("\r\n\r\nDynamic query\r\n");
+
+            foreach (dynamic sx in Squickl.Query("select * from colors"))
+            {
+                // column name properties are not case sensitive
+                Console.WriteLine(sx.name + "," + sx.NAME.GetType() + " = " + sx.number + "," + sx.Number.GetType());
+
+      
+            }
+
+
+
+
 
 
             Console.WriteLine("\r\nExtensions\r\n");

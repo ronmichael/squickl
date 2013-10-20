@@ -8,6 +8,10 @@ It's the descendant of SmartReader, a library I wrote and have been using for ye
 
 Change history
 -------------------------------------------------------------
+
+1.11 - October 19th, 2013
+- Added Query function for dynamic foreach reading; see new sample
+
 1.10 - October 25th, 2013
 - Significant refactoring & cleanup
 - Now uses DbProviderFactory for more universal database support; compatible with Glimpse
@@ -51,15 +55,26 @@ Lookup something:
 
 	string what = Squickl.Lookup("select top name from messages where author='Bob'");
 
-Get a DataTable:
-
-	DataTable msgs = Squickl.ReadTable("select top 10 * from messages");
-
 Need to access a different database than your default? Make sure it's in your .config and pass the name to a function:
 
 	string what = Squickl.Lookup("select top name from messages", "mysql");
 
-Need to walk through a dataset? It's similar to DataReader (in fact you can access the base DataReader) but with helper functions to make it simpler:
+Execute a statement:
+
+	Squickl.Execute("update colors set name='Red' where name='Redd'");
+
+Get a DataTable:
+
+	DataTable msgs = Squickl.ReadTable("select top 10 * from messages");
+
+Walk through a single dataset using dynamic foreach syntax:
+
+    foreach (dynamic sx in Squickl.Query("select * from colors"))
+    {
+        Console.WriteLine(sx.colorName);
+    }
+
+Walk through two datasets DataReader syntax:
 
 	using(Squickl sl = new Squickl("select when, name, subject, cost from messages; exec dbo.spu_Moredata; exec dbo.spu_Colors"))
 	{
