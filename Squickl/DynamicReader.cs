@@ -33,8 +33,53 @@ public partial class Squickl : System.IDisposable
             //result = rx;
 
             result = _dataRecord[binder.Name];
-            
+
             return result != null;
+        }
+    }
+
+
+
+    public static dynamic Query1(string commandText)
+    {
+        DbProviderFactory dbf = DbProviderFactories.GetFactory(Provider());
+
+        using (DbConnection cn = dbf.CreateConnection())
+        {
+
+            cn.ConnectionString = SqlConnectionString();
+            cn.Open();
+
+            using (DbCommand cmd = dbf.CreateCommand())
+            {
+                cmd.CommandText = commandText;
+                cmd.Connection = cn;
+                // if (!provider.ToLower().Contains("sqlserverce")) // can't use this with CE
+                //   cmd.CommandTimeout = 120; // should be configurable
+
+                using (DbDataReader dr = cmd.ExecuteReader())
+                {
+
+                    var result = new ExpandoObject() as IDictionary<string, Object>;
+
+                    bool hasData = dr.Read();
+
+                    result.Add("hasdata", hasData);
+
+                    if (hasData)
+                    {
+
+                        for (int x = 0; x < dr.FieldCount; x++)
+                        {
+                            result.Add(dr.GetName(x), dr[x]);
+                        }
+
+                    }
+
+                    return result;            
+
+                }
+            }
         }
     }
 

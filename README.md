@@ -9,6 +9,9 @@ It's the descendant of SmartReader, a library I wrote and have been using for ye
 Change history
 -------------------------------------------------------------
 
+1.12 - October 26th, 2013
+- Added Query1 function to return one dynamic row; see new sample
+
 1.11 - October 19th, 2013
 - Added Query function for dynamic foreach reading; see new sample
 
@@ -51,7 +54,7 @@ Notes:
 
 Examples
 -------------------------------------------------------------
-Lookup something:
+Lookup a single value:
 
 	string what = Squickl.Lookup("select top name from messages where author='Bob'");
 
@@ -59,13 +62,18 @@ Need to access a different database than your default? Make sure it's in your .c
 
 	string what = Squickl.Lookup("select top name from messages", "mysql");
 
-Execute a statement:
+Execute a statement that returns no results:
 
 	Squickl.Execute("update colors set name='Red' where name='Redd'");
 
 Get a DataTable:
 
 	DataTable msgs = Squickl.ReadTable("select top 10 * from messages");
+
+Get a single dynamic record:
+
+	dynamic record = Squickl.Query1("select top 10 * from colors");
+	Console.WriteLine(sx.ColorName + ", " + sx.ColorNumber);
 
 Walk through a single dataset using dynamic foreach syntax:
 
@@ -76,7 +84,7 @@ Walk through a single dataset using dynamic foreach syntax:
 
 Walk through two datasets DataReader syntax:
 
-	using(Squickl sl = new Squickl("select when, name, subject, cost from messages; exec dbo.spu_Moredata; exec dbo.spu_Colors"))
+	using(var sl = new Squickl("select when, name, subject, cost from messages; exec dbo.spu_Moredata; exec dbo.spu_Colors"))
 	{
 	
 		while(sl.Read())

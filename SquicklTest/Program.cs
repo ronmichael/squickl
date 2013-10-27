@@ -52,11 +52,11 @@ namespace SquicklTest
             Console.WriteLine("\r\n\r\nReader columns\r\n");
 
 
-            using (Squickl sr = new Squickl("select * from colors order by name"))
+            using (var sr = new Squickl("select * from colors order by name"))
             {
                 
           
-                foreach(Squickl.Column c in sr.Columns)
+                foreach(var c in sr.Columns)
        
                 {
                     Console.WriteLine(c.Name + " = " + c.RemoteType + "," + c.LocalType);
@@ -89,10 +89,22 @@ namespace SquicklTest
 
 
 
+            Console.WriteLine("\r\n\r\nDynamic single record\r\n");
+
+            dynamic record = Squickl.Query1("select  * from colors");
+            Console.WriteLine(record.hasdata);
+            Console.WriteLine(record.name + " = " + record.number);
+
+
+            Console.WriteLine("\r\n\r\nDynamic single record with no results\r\n");
+
+            dynamic record2 = Squickl.Query1("select  * from colors where 1=0");
+            Console.WriteLine(record2.hasdata);
 
 
 
-            Console.WriteLine("\r\nExtensions\r\n");
+
+            Console.WriteLine("\r\n\r\nExtensions\r\n");
 
             string xx = "turt'wax''le";
             Console.WriteLine("string " + xx + " : " + xx.SqlParam() + " : " + xx.SqlParam("x"));
