@@ -42,9 +42,11 @@ public partial class Squickl : System.IDisposable
 
     public static string SqlConnectionString(string name = "")
     {
+
         
         if (name.Length == 0)
             name = ConfigurationManager.AppSettings["Squickl_DefaultConnection"];
+        
 
         if (ConfigurationManager.ConnectionStrings[name] != null)
             return ConfigurationManager.ConnectionStrings[name].ConnectionString;
@@ -61,13 +63,11 @@ public partial class Squickl : System.IDisposable
 
         string provider = "";
 
-        if (name.Length == 0)
-            name = ConfigurationManager.AppSettings["Squickl_DefaultConnection"];
+        if (String.IsNullOrEmpty(name)) name = ConfigurationManager.AppSettings["Squickl_DefaultConnection"];
 
-        if (ConfigurationManager.ConnectionStrings[name] != null)
-            provider = ConfigurationManager.ConnectionStrings[name].ProviderName;
-        else if (ConfigurationManager.ConnectionStrings.Count > 0)
-            provider = ConfigurationManager.ConnectionStrings[0].ProviderName;
+        if (!String.IsNullOrEmpty(name) && ConfigurationManager.ConnectionStrings[name] != null) provider = ConfigurationManager.ConnectionStrings[name].ProviderName;
+
+        if (String.IsNullOrEmpty(provider) && ConfigurationManager.ConnectionStrings.Count > 0) provider = ConfigurationManager.ConnectionStrings[0].ProviderName;
 
         if (String.IsNullOrEmpty(provider)) provider = "System.Data.SqlClient";
 
