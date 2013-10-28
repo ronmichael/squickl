@@ -4,6 +4,13 @@ Squickl is a .NET library that simplifies access to SQL data sources
 when you don't want or need an ORM. 
 
 
+Installation
+-------------------------------------------------------------
+Squickl is available via NuGet (https://www.nuget.org/packages/Squickl) can can be installed from the Package Manager:
+
+	PM> Install-Package Squickl
+
+
 Examples
 -------------------------------------------------------------
 Execute a statement that returns no results:
