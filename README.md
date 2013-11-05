@@ -6,7 +6,7 @@ when you don't want or need an ORM.
 
 Installation
 -------------------------------------------------------------
-Squickl is available via NuGet (https://www.nuget.org/packages/Squickl) can can be installed from the Package Manager:
+Squickl is available via NuGet (https://www.nuget.org/packages/Squickl) and can be installed from the Package Manager:
 
 	PM> Install-Package Squickl
 
